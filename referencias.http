@@ -8,5 +8,15 @@ Content-Type: application/json
 
 {
     "nome": "Leonardo",
+    "email": "leolindo@gmail.com",
+    "senha": "123456"
+}
+
+###
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+    "email": "leolindo@gmail.com",
     "senha": "123456"
 }
