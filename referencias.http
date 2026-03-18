@@ -7,8 +7,8 @@ POST http://localhost:3000/usuarios
 Content-Type: application/json
 
 {
-    "nome": "Leonardo",
-    "email": "leolindo@gmail.com",
+    "nome": "Lorenzo",
+    "email": "feio@gmail.com",
     "senha": "123456"
 }
 
@@ -17,6 +17,17 @@ POST http://localhost:3000/login
 Content-Type: application/json
 
 {
-    "email": "leolindo@gmail.com",
+    "email": "lindo@gmail.com",
+    "senha": "123456"
+}
+
+
+###
+PUT http://localhost:3000/usuarios/6
+Content-Type: application/json
+
+{
+    "nome": "Lorenzo",
+    "email": "Lorenzolindogostoso@gmail.com",
     "senha": "123456"
 }
