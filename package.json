@@ -11,9 +11,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@fastify/cors": "^11.2.0",
     "fastify": "^5.7.4",
     "pg": "^8.19.0"
   },
-  "devDependencies": {},
-  "description": ""
+  "description": "data de criação"
 }

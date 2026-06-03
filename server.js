@@ -1,5 +1,6 @@
 import Fastify from 'fastify';
 import { Pool } from 'pg';
+import cors from '@fastify/cors';
 
 const sql = new Pool({
     user: "postgres",
@@ -11,14 +12,30 @@ const sql = new Pool({
  
 
 const servidor = Fastify()
+servidor.register(cors, {
+    origin: "*",
+    methods: ['GET', 'POST', 'PUT', 'DELETE']
+})
 
 servidor.get('/usuarios', async () => {
    const resultado = await sql.query("SELECT * FROM usuario")
     return resultado.rows
 })
+servidor.delete('/usuarios/:id', async (request, reply) => {
+    const id = request.params.id
+
+    await sql.query(
+        "DELETE FROM usuario WHERE id = $1",
+        [id]
+    )
+
+    return reply.send({
+        mensagem: "Usuário deletado com sucesso"
+    })
+})
 
 servidor.put('/usuarios/:id', async (request, reply) => {
-    const body = request.body;
+    const body = request.body;  
     const id = request.params.id;
 
     if (!body || !body.nome || !body.senha || !body.email) {
@@ -67,6 +84,8 @@ servidor.post("/login", async (request, reply) => {
         mensagem: "Login realizado com sucesso", ok: true
     })
 })
+
+
 
 servidor.listen({port: 3000})
  

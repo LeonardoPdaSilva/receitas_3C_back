@@ -1,0 +1,63 @@
+<style>
+    body{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    button{
+        padding: 10px;
+        font-size: 20px;
+        color: blue;
+    }
+</style>
+
+<button onclick="BuscarUsuario()">Buscar</button>
+<input type="text" id="nome" placeholder="digite seu nome">
+<input type="text" id="email" placeholder="digite seu email">
+<input type="text" id="senha" placeholder="digite sua senha">
+<button onclick="cadastrarUsuario()">Cadastrar</button>
+
+<div id="lista-usuarios">
+
+
+</div>
+
+<script>
+    async function BuscarUsuario(){
+        const resultado = await fetch("http://localhost:3000/usuarios")
+        const usuarios = await resultado.json();
+
+        rendereizarUsuarios(usuarios);
+    }
+
+    function rendereizarUsuarios(usuarios){
+        const div = document.getElementById("lista-usuarios")        
+        
+       usuarios.forEach(usuario =>{
+        const card = document.createElement('div')
+        card.style.border = '1px solid #ccc'
+
+        card.innerHTML = `<h1>${usuario.nome}<h1/>`
+        div.appendChild(card)
+    })
+    }
+
+     async function cadastrarUsuario(){
+        const nome = document.getElementById('nome').value
+        const email = document.getElementById('email').value
+        const senha = document.getElementById('senha').value
+    const body = {
+        nome,
+        email,
+        senha
+    }
+    const resultado = await fetch(`http://localhost:3000/usuarios`,{
+        method:'POST',
+        body: JSON.stringify(body),
+        headers: {"Content-type": "application/json"}
+    })
+       const retorno = await resultado.json()
+        alert(retorno.mensagem      )
+     }
+</script>
