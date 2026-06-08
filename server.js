@@ -85,6 +85,90 @@ servidor.post("/login", async (request, reply) => {
     })
 })
 
+servidor.get('/receita', async ()=>{
+     const resultado = await sql.query("SELECT * FROM receita")
+     return resultado.rows
+})
+
+servidor.delete('/receita/:id', async (request, reply) => {
+    const id = request.params.id
+
+    await sql.query(
+        "DELETE FROM receita WHERE id = $1",
+        [id]
+    )
+
+    return reply.send({
+        mensagem: "Receita deletado com sucesso"
+    })
+})
+
+servidor.post("/receita", async (request, reply) => {
+    const nome = request.body.nome;
+    const ingredientes = request.body.ingredientes;
+    const instrucoes = request.body.instrucoes;
+    const tempo_preparo_minutos = request.body.tempo_preparo_minutos
+    const usuario_id = request.body.usuario_id
+
+    const resultado = await sql.query(
+    `INSERT INTO receita
+    (usuario_id, nome, ingredientes, instrucoes, tempo_preparo_minutos)
+    VALUES ($1, $2, $3, $4, $5)`,
+    [usuario_id, nome, ingredientes, instrucoes, tempo_preparo_minutos]
+)
+    return reply.send({
+        mensagem:'Receita criada com sucesso'
+    })
+
+   
+})
+
+
+servidor.put('/receita/:id', async (request, reply) => {
+    const body = request.body
+    const id = request.body.id
+
+    if (
+        !body ||
+        !body.nome ||
+        !body.ingredientes ||
+        !body.instrucoes ||
+        !body.tempo_preparo_minutos ||
+        !body.usuario_id
+    ) {
+        return reply.status(400).send({
+            error: "Informações faltando"
+        })
+    }
+
+    if (!id) {
+        return reply.status(400).send({
+            error: "Faltou o id"
+        })
+    }
+
+    await sql.query(
+        `UPDATE receita
+         SET nome = $1,
+             ingredientes = $2,
+             instrucoes = $3,
+             tempo_preparo_minutos = $4,
+             usuario_id = $5
+         WHERE id = $6`,
+        [
+            body.nome,
+            body.ingredientes,
+            body.instrucoes,
+            body.tempo_preparo_minutos,
+            body.usuario_id,
+            id
+        ]
+    )
+
+    return reply.send({
+        mensagem: "Receita atualizada com sucesso"
+    })
+})
 
 
 servidor.listen({port: 3000})

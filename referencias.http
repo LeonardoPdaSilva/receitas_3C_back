@@ -33,3 +33,32 @@ Content-Type: application/json
 
 ###
 DELETE http://localhost:3000/usuarios/
+
+
+###
+GET http://localhost:3000/receita
+
+###
+POST http://localhost:3000/receita
+Content-Type: application/json
+
+{
+ "nome":"LEite de touro batido",
+ "ingredientes":"leite de touro",
+ "instrucoes": "bate",
+ "tempo_preparo_minutos": 10,
+ "usuario_id": 7
+}
+
+###
+PUT http://localhost:3000/receita/7
+Content-Type: application/json
+
+{
+ "id": 7,
+ "nome":"Leite de touro batido do braz",
+ "ingredientes":"leite de touro",
+ "instrucoes": "bate",
+ "tempo_preparo_minutos": 10,
+ "usuario_id": 7
+}
